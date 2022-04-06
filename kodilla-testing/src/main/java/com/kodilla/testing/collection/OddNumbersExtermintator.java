@@ -1,29 +1,29 @@
 package com.kodilla.testing.collection;
+
 import java.util.ArrayList;
 import java.util.List;
+
 class OddNumbersExterminator {
 
-    List<Integer> evenNumbers = new ArrayList<>();
-    List<Integer> numbers = new ArrayList<>();
 
-    public OddNumbersExterminator(List<Integer> numbers) {
-        this.numbers = numbers;
+    public OddNumbersExterminator() {
+
     }
 
-    public List<Integer> exterminate() {
-        for (int i = 0; i <= numbers.size() - 1; i++) {
-            Integer temp = numbers.get(i);
-            int number = numbers.get(i) % 2;
-            if (number % 2 < 1) {
-                evenNumbers.add(temp);
+    public List<Integer> exterminate(List<Integer> numbers) {
+        List<Integer> evenNumbers = new ArrayList<>();
+        if (numbers.size() == 0) {
+            System.out.println("No Data: ");
+        }
+        for (Integer i : numbers) {
+            if (i % 2 == 0) {
+                evenNumbers.add(i);
             }
         }
 
-
-            return evenNumbers;
-
-    }
-
-
+        return evenNumbers;
 
     }
+
+
+}

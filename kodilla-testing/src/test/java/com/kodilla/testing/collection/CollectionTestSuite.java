@@ -17,36 +17,31 @@ public class CollectionTestSuite {
         System.out.println("Test Case: end");
     }
 
-    @DisplayName("When listis empty, new empty list should be returned and printed: no data")
+    @DisplayName("When lists empty, new empty list should be returned and printed: no data")
 
     @Test
     void testOddNumbersExterminatorNormaList() {
         // Given
-        Integer int0 = 0;
-        Integer int1 = 1;
-        Integer int2 = 2;
-        Integer int3 = 3;
-        Integer int4 = 4;
-        Integer int5 = 5;
+
 
         List<Integer> numbers = new ArrayList<Integer>();
-        numbers.add(int0);
-        numbers.add(int1);
-        numbers.add(int2);
-        numbers.add(int3);
-        numbers.add(int4);
-        numbers.add(int5);
+        numbers.add(0);
+        numbers.add(2);
+        numbers.add(3);
+        numbers.add(4);
+        numbers.add(5);
+        numbers.add(1);
 
         List<Integer> expectedResult = new ArrayList<Integer>();
-        expectedResult.add(int0);
-        expectedResult.add(int2);
-        expectedResult.add(int4);
-        List<Integer> result = new ArrayList<Integer>();
+        expectedResult.add(0);
+        expectedResult.add(2);
+        expectedResult.add(4);
 
 
         //when
-        OddNumbersExterminator oddNumbersexterminator = new OddNumbersExterminator(numbers);
-        result = oddNumbersexterminator.exterminate();
+        OddNumbersExterminator oddNumbersexterminator = new OddNumbersExterminator();
+        List<Integer> result = oddNumbersexterminator.exterminate(numbers);
+
 
         System.out.println("Testing data:" + numbers);
         System.out.println("Expexted Data: " + expectedResult);
@@ -55,28 +50,25 @@ public class CollectionTestSuite {
         //Then
         Assertions.assertEquals(expectedResult, result);
     }
+
     @Test
     void testOddNumbersExterminatorEmptyList() {
 
         // Given
-        Integer int0 = 0;
-        Integer int1 = 1;
-        Integer int2 = 2;
-        Integer int3 = 3;
-        Integer int4 = 4;
-        Integer int5 = 5;
+
 
         List<Integer> numbers = new ArrayList<Integer>();
 
 
         List<Integer> expectedResult = new ArrayList<Integer>();
 
+
         List<Integer> result = new ArrayList<Integer>();
 
 
         //when
-        OddNumbersExterminator oddNumbersexterminator = new OddNumbersExterminator(numbers);
-        result = oddNumbersexterminator.exterminate();
+        OddNumbersExterminator oddNumbersexterminator = new OddNumbersExterminator();
+        result = oddNumbersexterminator.exterminate(numbers);
 
         System.out.println("Testing data:" + numbers);
         System.out.println("Expexted Data: " + expectedResult);
@@ -85,7 +77,7 @@ public class CollectionTestSuite {
         //Then
         Assertions.assertEquals(expectedResult, result);
     }
-    }
+}
 
 
 
