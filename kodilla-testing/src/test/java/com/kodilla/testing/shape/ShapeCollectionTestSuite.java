@@ -18,12 +18,12 @@ public class ShapeCollectionTestSuite {
     }
     @BeforeEach
     public void beforeEachTest(){
+        testCounter  ++;
         System.out.println("Begining test no: " + testCounter);
     }
     @AfterEach
 
     public void afterEachTest(){
-        testCounter  ++;
       System.out.println("End of test no :"+ testCounter);
     }
     @Nested
