@@ -29,4 +29,9 @@ public class ShapeCollector {
         String s = shapes.toString();
         return s;
     }
+    int shapeLenght(){
+
+        int i = shapes.size();
+        return i;
+    }
 }

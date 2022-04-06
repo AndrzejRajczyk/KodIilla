@@ -30,15 +30,16 @@ public class ShapeCollectionTestSuite {
     @DisplayName("Tests for changing List")
     class ChangingList {
         @Test
-        void testAddFigure(){
+        void testAddFigure() {
             //Given
             ShapeCollector shapeCollector = new ShapeCollector();
-            Shape shape = new  Triangle( "Figure1",1);
+            Shape shape = new Triangle("Figure1", 1);
             shapeCollector.addFigure(shape);
-           //When
+            //When
             shapeCollector.getFigure(0);
             // Then
             Assertions.assertEquals(shape, shapeCollector.getFigure(0));
+            Assertions.assertEquals(1, shapeCollector.shapeLenght());
         }
 
         @Test
@@ -53,6 +54,7 @@ public class ShapeCollectionTestSuite {
             shapeCollector.removeFigure(shape);
             //Then
             Assertions.assertNotEquals(shape, shapeCollector.getFigure(0));
+            Assertions.assertEquals(0,shapeCollector.shapeLenght());
         }
 
     }
