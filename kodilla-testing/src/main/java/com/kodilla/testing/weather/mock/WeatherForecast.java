@@ -1,9 +1,6 @@
 package com.kodilla.testing.weather.mock;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WeatherForecast {
     private Temperatures temperatures;
@@ -32,11 +29,45 @@ public class WeatherForecast {
             temperature.add(t.getValue());
         }
 
-        for ( int i = 0; i <= temperature.size() - 1; i ++){
-            average =+temperature.get(i);
+        for (int i = 0; i <= temperature.size() - 1; i++) {
+            average += temperature.get(i);
         }
         average = average / temperature.size();
         return average;
     }
+
+    public double calculateMedianTemperature() {
+        List<Double> temperature = new ArrayList();
+        double median = 0.0;
+        for (Map.Entry<String, Double> t : temperatures.getTemperatures().entrySet()) {
+            temperature.add(t.getValue());
+        }
+
+        Collections.sort(temperature);
+
+        if (temperature.size() % 2 != 0) {
+
+            int middle = (temperature.size() / 2);
+             median =  temperature.get(middle);
+            return median;
+        }
+
+        if (temperature.size() % 2 == 0) {
+
+
+            double first = temperature.get((temperature.size() / 2)-1);
+            double second = temperature.get((temperature.size() / 2) );
+              median = (first + second) / 2;
+             return median;
+        }
+        if (temperature.size() == 1) {
+
+            median= temperature.get(0);
+            return median;
+        }
+        return median;
+    }
 }
+
+
 
