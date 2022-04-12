@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class BookDirectoryTestSuite {
+class BookTest {
     @Mock
     private LibraryDatabase libraryDatabaseMock;
 
