@@ -6,8 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -88,6 +91,7 @@ class BoardTestSuite {
         project.addTaskList(taskListDone);
         return project;
     }
+
     @Test
     void testAddTaskListFindUsersTasks() {
         //Given
@@ -105,6 +109,7 @@ class BoardTestSuite {
         assertEquals(user, tasks.get(0).getAssignedUser());   // [7]
         assertEquals(user, tasks.get(1).getAssignedUser());   // [8]
     }
+
     @Test
     void testAddTaskListFindOutdatedTasks() {
         //Given
@@ -124,6 +129,7 @@ class BoardTestSuite {
         assertEquals(1, tasks.size());                              // [9]
         assertEquals("HQLs for analysis", tasks.get(0).getTitle()); // [10]
     }
+
     @Test
     void testAddTaskListFindLongTasks() {
         //Given
@@ -142,26 +148,39 @@ class BoardTestSuite {
         //Then
         assertEquals(2, longTasks);                                       // [9]
     }
+
     @Test
     void testAddTaskListAverageWorkingOnTask() {
         /// Given
         Board project = prepareTestData();
-        long days = 1L;
+        long days = 10L;
 
         //When
-        List<TaskList> inProgressTasks = new ArrayList<>();
+       List<TaskList> inProgressTasks = new ArrayList<>();
         inProgressTasks.add(new TaskList("In progress"));
-        long averageTask = project.getTaskLists().stream()
+       /*/long averageTask = project.getTaskLists().stream()
                 .filter(inProgressTasks::contains)
                 .flatMap(ltask -> ltask.getTasks().stream())
                 .map(Task::getCreated)
-                .map(tdate->tdate.toEpochDay())
-                .map(tdate->tdate=LocalDate.now().toEpochDay()-tdate)
-                .count();
-        long result = averageTask/3;
+                .map(tdate -> tdate.toEpochDay())
+                .map(tdate -> LocalDate.now().toEpochDay() - tdate)
 
-        Assertions.assertEquals(days,result );
+         /*/     // .reduce(BigDecimal.ZERO.longValue(), (add, current) -> add = add + current);
+
+
+       LongStream averageTask = project.getTaskLists().stream()
+                .filter(inProgressTasks::contains)
+                .flatMap(ltask->ltask.getTasks().stream())
+                .map(Task::getCreated)
+                .map(tdate-> ChronoUnit.DAYS.between(LocalDate.now(), tdate))
+               //.map(IntStream)
+               //.atStartOfDay()
+
+      long result = averageTask/3 ;
+
+        Assertions.assertEquals(days, result);
 
     }
+
 
 }
