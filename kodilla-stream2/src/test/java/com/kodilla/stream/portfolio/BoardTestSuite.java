@@ -168,17 +168,17 @@ class BoardTestSuite {
          /*/     // .reduce(BigDecimal.ZERO.longValue(), (add, current) -> add = add + current);
 
 
-       LongStream averageTask = project.getTaskLists().stream()
+       double averageTask = project.getTaskLists().stream()
                 .filter(inProgressTasks::contains)
                 .flatMap(ltask->ltask.getTasks().stream())
                 .map(Task::getCreated)
-                .map(tdate-> ChronoUnit.DAYS.between(LocalDate.now(), tdate))
-               //.map(IntStream)
-               //.atStartOfDay()
+                .map(tdate-> ChronoUnit.DAYS.between(tdate, LocalDate.now()))
+               .mapToInt(number-> number.intValue() )
+               .average().orElse(0);
 
-      long result = averageTask/3 ;
 
-        Assertions.assertEquals(days, result);
+
+        Assertions.assertEquals(days, averageTask,0.1);
 
     }
 

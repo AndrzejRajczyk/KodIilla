@@ -5,17 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 public class FindFilght {
 
     public void findFlight(Flight flight) throws RouteNotFoundException {
         Map<String, Boolean> airportsList = new HashMap<String, Boolean>();
-        airportsList.put("Warsaw", true);
-        airportsList.put("London", true);
-        airportsList.put("Berlin", true);
-        airportsList.put("New York", true);
-        airportsList.put("Moscow", false);
+        airportsList.put("Warsaw", TRUE);
+        airportsList.put("London", TRUE);
+        airportsList.put("Berlin", TRUE);
+        airportsList.put("New York", TRUE);
+        airportsList.put("Moscow", FALSE);
 
-        if(airportsList.containsKey(flight.getDepartureAirport())==true  && airportsList.containsValue(flight.getArrivalAirport())==true){
+
+        if(airportsList.containsKey(flight.getDepartureAirport())==TRUE  && airportsList.containsValue(flight.getArrivalAirport())==FALSE){
             System.out.println("Found Flight from: "+ flight.getDepartureAirport() +
                     "to: " + flight.getArrivalAirport());
         }
@@ -25,14 +29,15 @@ public class FindFilght {
     }
 
     public static void main (String[] args){
-        Flight flight =new Flight("Moscow", "New York");
+        Flight flight =new Flight("Warsaw", "New York");
         FindFilght findF = new FindFilght();
 
         try{
           findF.findFlight(flight);
     }
         catch(RouteNotFoundException e){
-        System.out.println("This flihgt cannot be choose");
+
+             System.out.println("Flight not found");
         }
         finally {
             System.out.println("Thank for beeing with us");
