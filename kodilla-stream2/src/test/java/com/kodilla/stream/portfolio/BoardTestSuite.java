@@ -158,14 +158,7 @@ class BoardTestSuite {
         //When
        List<TaskList> inProgressTasks = new ArrayList<>();
         inProgressTasks.add(new TaskList("In progress"));
-       /*/long averageTask = project.getTaskLists().stream()
-                .filter(inProgressTasks::contains)
-                .flatMap(ltask -> ltask.getTasks().stream())
-                .map(Task::getCreated)
-                .map(tdate -> tdate.toEpochDay())
-                .map(tdate -> LocalDate.now().toEpochDay() - tdate)
 
-         /*/     // .reduce(BigDecimal.ZERO.longValue(), (add, current) -> add = add + current);
 
 
        double averageTask = project.getTaskLists().stream()
@@ -173,8 +166,8 @@ class BoardTestSuite {
                 .flatMap(ltask->ltask.getTasks().stream())
                 .map(Task::getCreated)
                 .map(tdate-> ChronoUnit.DAYS.between(tdate, LocalDate.now()))
-               .mapToInt(number-> number.intValue() )
-               .average().orElse(0);
+                .mapToInt(number-> number.intValue() )
+                .average().orElse(0);
 
 
 

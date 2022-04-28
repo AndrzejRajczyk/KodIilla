@@ -11,7 +11,7 @@ version '0.0.1-SNAPSHOT'
 javafx {
     version = "17.0.1"
     modules = [ 'javafx.controls' ]
-    mainClassName ='tictactoe.TicTacToe'
+    mainClassName ='tictactoe.TicTacButton'
 }
 
 
