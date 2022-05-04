@@ -17,385 +17,251 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.transform.Scale;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class TicTacButton extends Application  {
     Random generator = new Random();
-    String [][] game = new String [3][3];
+    GridPane grid = new GridPane();
+    Label label = new Label();
     int move=0;
+    boolean playerVsComputer=true;
+    String player="X";
+
+
+void computerMove(){
+    if(playerVsComputer==true && move!=10){
+    System.out.println(grid.getChildren());
+    List<Button> buttons = grid.getChildren().stream()
+            .filter(node -> node instanceof Button)
+            .map(node -> (Button) node)
+            .filter(button -> button.getText().equals("--"))
+            .collect(Collectors.toList());
+    int index = generator.nextInt(buttons.size());
+        if (move%2==0) {
+            player = "O";
+        }
+
+        if(move%2!=0){
+            player="X";
+        }
+    buttons.get(index).setText(player);
+        move++;
+
+    }
+
+
+}
+void player1win() {
+    String s="";
+    List<Button> buttons = grid.getChildren().stream()
+            .filter(node -> node instanceof Button)
+            .map(node -> (Button) node)
+            .filter(button -> button.getText().equals("X"))
+            .collect(Collectors.toList());
+
+    Map<Integer, Integer> xxx = new HashMap<>();
+    Map <Integer, Integer> yyy = new HashMap<>();
+
+    for (int i = 0; i < buttons.size(); i++) {
+
+        int x = GridPane.getRowIndex(buttons.get(i));
+        int y = GridPane.getColumnIndex(buttons.get(i));
+        s = s + x + y;
+
+   /*for (int i = 0; i < buttons.size(); i++) {
+        int x = GridPane.getRowIndex(buttons.get(i));
+        int y = GridPane.getColumnIndex(buttons.get(i));
+        System.out.println("x "+ x + "y " + y);
+        s =s+x+y;
+        if (xxx.containsKey(x)){
+            int value = xxx.get(x);
+            value++;
+            xxx.put(x,value);
+
+        }
+        else{
+            xxx.put(x,1);
+        }*/
+        if (s.equals("000102") || s.equals("101112") || s.equals("202122")) {
+            System.out.println("You Win");
+            label.setText("The Winner is: X");
+            move=10;
+
+        }
+        if (s.equals("001020") || s.equals("011121") || s.equals("021222")) {
+            System.out.println("You Win");
+            label.setText("The Winner is: X");
+            move=10;
+        }
+        if (s.equals("001122") || s.equals("201102")) {
+            System.out.println("You Win");
+            label.setText("The Winner is: X");
+            move=10;
+        }
+    }
 
 
 
+    }
+
+
+void player2win() {
+        String s="";
+
+        List<Button> buttons = grid.getChildren().stream()
+                .filter(node -> node instanceof Button)
+                .map(node -> (Button) node)
+                .filter(button -> button.getText().equals("O"))
+                .collect(Collectors.toList());
+        for (int i = 0; i < buttons.size(); i++) {
+            int x = GridPane.getRowIndex(buttons.get(i));
+            int y = GridPane.getColumnIndex(buttons.get(i));
+            s =s+x+y;
+            if(s.equals("000102")|| s.equals("101112")|| s.equals("202122")){
+                System.out.println("You Win");
+                label.setText("The Winner is: O ");
+                move=10;
+            }
+            if(s.equals("001020")||s.equals("011121")||s.equals("021222")){
+                System.out.println("You Win");
+                label.setText("The Winner is: O");
+                move=10;
+            }
+            if(s.equals("001122")||s.equals("201102")){
+                System.out.println("You Win");
+                label.setText("The Winner is: O");
+                move=10;
+            }
+
+
+
+        }
+
+    }
+    void reset(){
+        move=0;
+        player="X";
+        label.setText("The Winner is: ");
+        boolean playerVsComputer=true;
+        List<Button> buttons = grid.getChildren().stream()
+                .filter(node -> node instanceof Button)
+                .map(node -> (Button) node)
+                .filter(node -> node.getText().equals("X") || node.getText().equals("O") ||
+                        node.getText().equals("--"))
+                .collect(Collectors.toList());
+
+        for(int i=0; i<=buttons.size()-1; i++){
+            buttons.get(i).setText("--");
+        }
+
+    }
 
 
 
     @Override
     public void start(Stage primaryStage) {
 
-        GridPane grid = new GridPane();
-        Scene scene = new Scene(grid);
+
+        Scene scene = new Scene(grid, 1200, 1000);
         primaryStage.setTitle("TicTacToe Game");
         primaryStage.setScene(scene);
         primaryStage.show();
-        for (int i = 0; i <= game.length - 1; i++) {
-            for (int n = 0; n <= i; n++) {
-                game[i][n] = "--";
+        primaryStage.setResizable(false);
+        Scale scale = new Scale(3, 3);
+        scale.setPivotX(0);
+        scale.setPivotY(0);
+        scene.getRoot().getTransforms().setAll(scale);
+        label.setText("The Winner is");
+
+       //game
+        for (int i = 0; i <= 2; i++) {
+            for (int n = 0; n <= 2; n++) {
+                Button button = new Button();
+                button.setText("--");
+                button.setOnMouseClicked(event -> {
+                    System.out.println("Buttonclicked" );
+
+                    //X or Y depends or player
+                    if (move%2==0) {
+                        player = "O";
+                    }
+
+                    if(move%2!=0){
+                        player="X";
+                    }
+                            if(button.getText().equals("--")&&move<=9){
+                                move++;
+                                System.out.println(move);
+                                button.setText(player);
+                                player1win();
+                                player2win();
+                                computerMove();
+                                player1win();
+                                player2win();
+
+                            }
+                });
+                grid.add(button, i, n);
             }
         }
-        game[0][0] = "--";
-        game[0][1] = "--";
-        game[0][2] ="--";
-        game[1][0] = "--";
-        game[1][1] = "--";
-        game[1][2] = "--";
-        game[2][0] = "--";
-        game[2][1] = "--";
-        game[2][2] = "--";
-        grid.setMinSize(100, 100);
-        grid.setMaxSize(100, 100);
+
+        grid.setMinSize(50, 50);
+        grid.setMaxSize(200, 200);
         grid.setPadding(new Insets(10, 10, 10, 10));
-
-
         grid.setHgap(10);
         grid.setVgap(10);
-        Button button1 = new Button();
-        Button button2 = new Button();
-        Button button3 = new Button();
-        Button button4 = new Button();
-        Button button5 = new Button();
-        Button button6 = new Button();
-        Button button7 = new Button();
-        Button button8 = new Button();
-        Button button9 = new Button();
-        button1.setText(String.valueOf(game[0][0]));
-        button2.setText(String.valueOf(game[0][1]));
-        button3.setText(String.valueOf(game[0][2]));
-        button4.setText(String.valueOf(game[1][0]));
-        button5.setText(String.valueOf(game[1][1]));
-        button6.setText(String.valueOf(game[1][2]));
-        button7.setText(String.valueOf(game[2][0]));
-        button8.setText(String.valueOf(game[2][1]));
-        button9.setText(String.valueOf(game[2][2]));
-        grid.add(button1, 1, 1);
-        grid.add(button2, 2, 1);
-        grid.add(button3, 3, 1);
-        grid.add(button4, 1, 2);
-        grid.add(button5, 2, 2);
-        grid.add(button6, 3, 2);
-        grid.add(button7, 1, 3);
-        grid.add(button8, 2, 3);
-        grid.add(button9, 3, 3);
+        Button buttonOnePlayer = new Button();
+        Button buttonTwoPlayer = new Button();
+        Button buttonReset = new Button();
+        buttonOnePlayer.setText("Player vs Computer");
+        buttonOnePlayer.setTextFill(Color.RED);
+        buttonTwoPlayer.setText("Player vs Player");
+        buttonReset.setText("Reset Game");
+        grid.add(buttonOnePlayer,4,0);
+        grid.add(buttonTwoPlayer,5,0);
+        grid.add(buttonReset, 4, 3);
+        grid.add(label, 4,2);
 
 
 
+EventHandler buttonOnePlayerevent = new EventHandler() {
+    @Override
+    public void handle(Event event) {
+        buttonOnePlayer.setTextFill(Color.RED);
+        buttonTwoPlayer.setTextFill(Color.BLACK);
+        playerVsComputer=true;
+
+    }
+};
+EventHandler buttonTwoPlayerevent = new EventHandler() {
+    @Override
+    public void handle(Event event) {
+        buttonTwoPlayer.setTextFill(Color.RED);
+        buttonOnePlayer.setTextFill(Color.BLACK);
+        playerVsComputer=false;
+    }
+};
+EventHandler resetEvent = new EventHandler() {
+    @Override
+    public void handle(Event event) {
+        reset();
+
+    }
+};
 
 
-        EventHandler button1event = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-            if(game[0][0]=="--"){
-                game[0][0]="X";
-                button1.setText("X");
-                    move++;
-                    System.out.println(move);
-
-                if (move!=9){
-                    System.out.println(move);
-                    int horizontal = generator.nextInt(3)+1;
-                    int vertical = generator.nextInt(3)+1;
-                    while (game[horizontal-1][vertical-1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal-1][vertical-1] == "--") {
-                        game[horizontal-1][vertical-1]="O";
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-
-                    }}
-
-                }
-
-
-            }
-        };
-
-        EventHandler button2event = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-
-                if(game[0][1]=="--"){
-                    game[0][1]="X";
-                    button2.setText("X");
-                    move++;
-                    System.out.println(move);
-                    if (move!=9){
-                        System.out.println(move);
-                    int horizontal = generator.nextInt(3)+1;
-                    int vertical = generator.nextInt(3)+1;
-                    while (game[horizontal-1][vertical-1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal-1][vertical-1] == "--") {
-                        game[horizontal-1][vertical-1]="O";
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-                    }}
-                }
-            }
-            };
-        EventHandler button3event = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                if(game[0][2]=="--"){
-                    game[0][2]="X";
-                    button3.setText("X");
-                    move++;
-                    System.out.println(move);
-                    if (move!=9){
-                        System.out.println(move);
-                    int horizontal = generator.nextInt(3)+1;
-                    int vertical = generator.nextInt(3)+1;
-                    while (game[horizontal-1][vertical-1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal-1][vertical-1] == "--") {
-                        game[horizontal-1][vertical-1]="O";
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-                    }}
-                }
-            }
-        };
-        EventHandler button4event= new EventHandler() {
-            @Override
-            public void handle(Event event) {
-
-                if(game[1][0]=="--"){
-                    game[1][0]="X";
-                    button4.setText("X");
-                    move++;
-                    System.out.println(move);
-                    if(move!=9){
-                        System.out.println(move);
-                    int horizontal = generator.nextInt(3)+1;
-                    int vertical = generator.nextInt(3)+1;
-                    while (game[horizontal-1][vertical-1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal-1][vertical-1] == "--") {
-                        game[horizontal-1][vertical-1]="O";}
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-                    }
-                }}
-            };
-
-        EventHandler button5event = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-
-
-                if (game[1][1] == "--") {
-                    game[1][1] = "X";
-                    button5.setText("X");
-                    move++;
-                    System.out.println(move);
-                    if (move!=9){
-                        System.out.println(move);
-                    int horizontal = generator.nextInt(3) + 1;
-                    int vertical = generator.nextInt(3) + 1;
-                    while (game[horizontal - 1][vertical - 1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal - 1][vertical - 1] == "--") {
-                        game[horizontal - 1][vertical - 1] = "O";
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-                    }
-                }}
-            }
-        };
-        EventHandler button6event =new EventHandler() {
-                @Override
-                public void handle(Event event) {
-                    if (game[1][2] == "--") {
-                        game[1][2] = "X";
-                        button6.setText("X");
-                        move++;
-                        if (move!=9){
-                        int horizontal = generator.nextInt(3) + 1;
-                        int vertical = generator.nextInt(3) + 1;
-                        while (game[horizontal - 1][vertical - 1] != "--") {
-                            horizontal = generator.nextInt(3) + 1;
-                            vertical = generator.nextInt(3) + 1;
-                        }
-                        if (game[horizontal - 1][vertical - 1] == "--") {
-                            game[horizontal - 1][vertical - 1] = "O";
-                            move++;
-                            button1.setText(String.valueOf(game[0][0]));
-                            button2.setText(String.valueOf(game[0][1]));
-                            button3.setText(String.valueOf(game[0][2]));
-                            button4.setText(String.valueOf(game[1][0]));
-                            button5.setText(String.valueOf(game[1][1]));
-                            button6.setText(String.valueOf(game[1][2]));
-                            button7.setText(String.valueOf(game[2][0]));
-                            button8.setText(String.valueOf(game[2][1]));
-                            button9.setText(String.valueOf(game[2][2]));
-                        }}
-                    }
-                }
-            };
-        EventHandler button7event = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                if (game[2][0] == "--") {
-                    game[2][0] = "X";
-                    button7.setText("X");
-                    move++;
-                    if (move!=9){
-                    int horizontal = generator.nextInt(3) + 1;
-                    int vertical = generator.nextInt(3) + 1;
-                    while (game[horizontal - 1][vertical - 1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal - 1][vertical - 1] == "--") {
-                        game[horizontal - 1][vertical - 1] = "O";
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-                    }}
-                }
-            }
-        };
-        EventHandler button8event = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                if (game[2][1] == "--") {
-                    game[2][1] = "X";
-                    button8.setText("X");
-                    move++;
-                    if (move!=9){
-                    int horizontal = generator.nextInt(3) + 1;
-                    int vertical = generator.nextInt(3) + 1;
-                    while (game[horizontal - 1][vertical - 1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal - 1][vertical - 1] == "--") {
-                        game[horizontal - 1][vertical - 1] = "O";
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-                    }}
-                }
-            }
-        };
-        EventHandler button9event = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                if (game[2][2] == "--") {
-                    game[2][2] = "X";
-                    move++;
-                    button9.setText("X");
-                    if (move!=9){
-                    int horizontal = generator.nextInt(3) + 1;
-                    int vertical = generator.nextInt(3) + 1;
-                    while (game[horizontal - 1][vertical - 1] != "--") {
-                        horizontal = generator.nextInt(3) + 1;
-                        vertical = generator.nextInt(3) + 1;
-                    }
-                    if (game[horizontal - 1][vertical - 1] == "--") {
-                        game[horizontal - 1][vertical - 1] = "O";
-                        move++;
-                        button1.setText(String.valueOf(game[0][0]));
-                        button2.setText(String.valueOf(game[0][1]));
-                        button3.setText(String.valueOf(game[0][2]));
-                        button4.setText(String.valueOf(game[1][0]));
-                        button5.setText(String.valueOf(game[1][1]));
-                        button6.setText(String.valueOf(game[1][2]));
-                        button7.setText(String.valueOf(game[2][0]));
-                        button8.setText(String.valueOf(game[2][1]));
-                        button9.setText(String.valueOf(game[2][2]));
-                    }}
-                }
-            }};
-
-
-
-        button1.setOnMouseClicked(button1event);
-        button2.setOnMouseClicked(button2event);
-        button3.setOnMouseClicked(button3event);
-        button4.setOnMouseClicked(button4event);
-        button5.setOnMouseClicked(button5event);
-        button6.setOnMouseClicked(button6event);
-        button7.setOnMouseClicked(button7event);
-        button8.setOnMouseClicked(button8event);
-        button9.setOnMouseClicked(button9event);
-
-
+        buttonOnePlayer.setOnMouseClicked(buttonOnePlayerevent);
+        buttonTwoPlayer.setOnMouseClicked(buttonTwoPlayerevent);
+        buttonReset.setOnMouseClicked(resetEvent);
 
     }
     public static void main(String[] args) {
