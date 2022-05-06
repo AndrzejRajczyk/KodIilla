@@ -32,7 +32,7 @@ public class MovieStore {
         String displaySeparator = booksTitlesWithTranslations.entrySet().stream()
                 .map(o->o.getValue())
                 .map(o->o.toString())
-                        .collect(Collectors.joining(" ! "));
+                .collect(Collectors.joining(" ! "));
 
         System.out.println(displaySeparator);
 
