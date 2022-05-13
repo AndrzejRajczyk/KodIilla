@@ -1,7 +1,6 @@
-package com.kodilla;
+package com.kodilla.spring.forum;
 
 
-import com.kodilla.spring.forum.ForumUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;

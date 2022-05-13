@@ -10,7 +10,7 @@ class FileReaderTestSuite {
         //Given
         FileReader fileReader = new FileReader();
         // when & then
-        assertDoesNotThrow(()-> fileReader.readFile("Names txt"));
+        assertDoesNotThrow(()-> fileReader.readFile("names.txt"));
     }
     @Test
     void whenFileDosentExistsReadFileShouldThrowException() {
