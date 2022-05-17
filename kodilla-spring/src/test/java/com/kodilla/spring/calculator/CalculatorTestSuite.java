@@ -18,10 +18,10 @@ public class CalculatorTestSuite {
         double resultmul = calculator.mul(2,2);
         double resultdiv = calculator.div(3,1);
 
-        Assertions.assertEquals(3, resultadd);
-                Assertions.assertEquals(1, resultsub);
-                Assertions.assertEquals(4, resultmul);
-                Assertions.assertEquals(3, resultdiv);
+        Assertions.assertEquals(3, resultadd, 0.1);
+                Assertions.assertEquals(1, resultsub, 0.1);
+                Assertions.assertEquals(4, resultmul, 0.1);
+                Assertions.assertEquals(3, resultdiv,0.1);
 
     }
 }

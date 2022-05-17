@@ -3,12 +3,12 @@ package com.kodilla.patterns.singleton;
 /*public class */ enum Logger {
 INSTANCE;
 
-    private String lastLog = "Example logs text";
-// private String lastLog = "";
+    private String lastLog = "";
+/* private String lastLog = "";
 
    // public Logger(String lastLog) {
   //      this.lastLog = lastLog;
-   // }
+    }*/
 
     public void log(String log) {
         lastLog = log;

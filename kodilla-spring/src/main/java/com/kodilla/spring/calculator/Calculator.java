@@ -6,27 +6,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class Calculator {
 
-double a;
-double b;
-double  c;
 @Autowired
     Display display;
 double add(double a, double b){
-    c=a+b;
+    double c=a+b;
     System.out.print("a+b= ");
     display.displayValue(c);
 
     return c;
     }
     double  sub(double a, double b){
-        c=a-b;
+        double c=a-b;
         System.out.print("a-b= ");
         display.displayValue(c);
 
     return c;
     }
     double mul(double a, double b){
-    c=a*b;
+        double c=a*b;
     System.out.print("a*b= ");
     display.displayValue(c);
 
@@ -35,7 +32,7 @@ double add(double a, double b){
     }
     double div(double a, double b){
         System.out.print("a/b= ");
-    c=a/b;
+        double c=a/b;
     display.displayValue(c);
 
     return c;
