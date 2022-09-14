@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedNativeQuery(
-        name = "Company.retrieveCompanyWithTheseLetters",
-        query = "SELECT * FROM COMPANIES" +
-                " WHERE LEFT (COMPANY_NAME, 3) LIKE :COMPANY_NAME",
+        name = "Company.retrieveCompaniesWithName",
+        query = "SELECT * FROM companies" +
+                " WHERE SUBSTRING(company_name,1,3) = :SUBSTRING",
         resultClass = Company.class
 )
 @NamedNativeQuery(
